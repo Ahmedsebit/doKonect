@@ -23,7 +23,7 @@ from .views import home
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name='home'),
-    url(r'^referral/', include('doctor_referral.urls')),
+    url(r'^referral/', include('doctor_referral.urls', namespace='referral')),
 ]
 
 if settings.DEBUG:

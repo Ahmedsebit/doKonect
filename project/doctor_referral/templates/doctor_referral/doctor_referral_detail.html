@@ -1,8 +1,13 @@
-{{object}}</br>
-{{object.patient_id}}</br>
-{{object.doctor_id}}</br>
-{{object.user_id}}</br>
-{{object.booking_date}}</br>
-{{object.booked_date}}</br>
-{{object.group}}</br>
-{{object.comments}}</br>
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+        <h5>{{object}}</h5></br>
+        {{object.patient_id}}</br>
+        {{object.doctor_id}}</br>
+        {{object.user_id}}</br>
+        {{object.booking_date}}</br>
+        {{object.booked_date}}</br>
+        {{object.group}}</br>
+        {{object.comments}}</br>
+        
+{% endblock content %}
