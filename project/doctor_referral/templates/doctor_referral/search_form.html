@@ -1,4 +1,5 @@
-<form action="{% url "referral:list" %}"  class="form-inline my-2 my-lg-0">
+<form action="{% url "referral:list" %}" id="search-form"  class="form-inline my-2 my-lg-0">
     <input type="text" name="q" placeholder="search" value="{{ request.GET.q}}" input class="form-control mr-sm-2" aria-label="Search">
     <input type="submit" value="search" class="btn">
 </form>
+    

@@ -1,13 +1,34 @@
 {% extends "base.html" %}
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
-        <h5>{{object}}</h5></br>
-        {{object.patient_id}}</br>
-        {{object.doctor_id}}</br>
-        {{object.user_id}}</br>
-        {{object.booking_date}}</br>
-        {{object.booked_date}}</br>
-        {{object.group}}</br>
-        {{object.comments}}</br>
+    <table class="table table-bordered">
+    <tbody>
+        <tr>
+        <th scope="row">Patient ID</th>
+        <td>{{object.patient_id}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Doctor ID</th>
+        <td>{{object.doctor_id}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Entred By</th>
+        <td>{{object.user_id}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Booked Date</th>
+        <td colspan="2">{{object.booked_date}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Group</th>
+        <td colspan="2">{{object.group}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Comments</th>
+        <td colspan="2">{{object.comments}}</td>
+        </tr>
+    </tbody>
+    </table>
+        
         
 {% endblock content %}

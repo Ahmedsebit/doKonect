@@ -1,6 +1,58 @@
 {% extends "base.html" %}
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
-      <h1>Home</h1>
+    <section class="row text-center placeholders">
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <div class="text-muted">Something else</div>
+            </div>
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+          </section>
+    {% include "doctor_referral/search_form.html" %}</br>
+    <h2>Patients</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Request id</th>
+                <th>Patient ID</th>
+                <th>Doctor ID</th>
+                <th>Date</th>
+                <th>Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in object_list %}
+                <tr>
+                <td>{{object.id}}</td>
+                <td>{{object.patient_id}}</td>
+                <td>{{object.doctor_id}}</td>
+                <td>{{object.booked_date}}</td>
+                <td>{{object.group}}</td>
+                </tr>
+                {% empty %}
+                    {% if request.GET.q %}
+                    <p><No Patient Found</p>
+                    {% else %}
+                    <p>No Booking Done</p>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
     {% endblock content %}
-

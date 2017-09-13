@@ -1,58 +1,130 @@
 {% extends "base.html" %}
+
+    {% block script %}
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        $(document).ready(function(){
+            var query = getParameterByName('q')
+            var referList = [];
+            var nextReferralUrl;
+
+            function parseRefer(){
+                if (referList == 0){
+                    $("#referal-container").append(
+                                "<tr>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "</td>" +
+                                "<td>" + "</td>" +
+                                "</tr>"   
+                        )
+                }else{
+                $.each(referList, function(key,value){
+                        var patient_id = value.patient_id
+                        var doctor_id = value.doctor_id
+                        var booked_date = value.booked_date
+                        var group = value.group
+                        $("#referal-container").append(
+                                "<tr>" +
+                                "<td>" + patient_id + "</td>" +
+                                "<td>" + doctor_id + "</td>" +
+                                "<td>" + booked_date + "</td>" +
+                                "<td>" + group + "</td>" +
+                                "</tr>"   
+                        )
+                    })
+                }
+            }
+
+            function fetchReferals(url){
+                console.log("fetching...")
+                var fetchUrl;
+                if(!url){
+                    fetchUrl = "/api/referral/"
+                }else{
+                    fetchUrl = url
+                }
+                $.ajax({
+                url:fetchUrl,
+                data:{
+                    'q':query
+                },
+                method:"GET",
+                success:function(data){
+                    referList = data.results
+                    nextReferralUrl = data.next;
+                    parseRefer()
+                    
+                },
+                error: function(data){
+                    console.log("error");
+                    console.log(data);
+                }
+                })
+            }
+
+            fetchReferals()
+
+            $('#load-more').click("click", function(event){
+                event.preventDefault()
+                if (nextReferralUrl){
+                    fetchReferals(nextReferralUrl)
+                }          
+            })
+
+            $("#refer-form").submit(function(event){
+                event.preventDefault()
+                var this_ = $(this)
+                var formData = this_.serializeArray();
+
+                $.ajax({
+                    url:"/api/referral/create/",
+                    data: formData,
+                    method: "POST",
+                    success:function(data){
+                        console.log(data)
+                        fetchReferals()
+                        
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(formData);
+                        console.log(data.statusText);
+                    }
+                })
+            })
+        });
+
+    </script>
+    {% endblock script %}
+
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
-    <section class="row text-center placeholders">
-            <div class="col-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <div class="text-muted">Something else</div>
-            </div>
-            <div class="col-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </section>
     {% include "doctor_referral/search_form.html" %}</br>
+    <!-- Button trigger modal -->
     <h2>Patients</h2>
-        <div class="table-responsive">
+    <div class="table-responsive">
             <table class="table table-striped">
             <thead>
                 <tr>
-                <th>Request id</th>
                 <th>Patient ID</th>
                 <th>Doctor ID</th>
                 <th>Date</th>
                 <th>Group</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for object in object_list %}
-                <tr>
-                <td>{{object.id}}</td>
-                <td>{{object.patient_id}}</td>
-                <td>{{object.doctor_id}}</td>
-                <td>{{object.booked_date}}</td>
-                <td>{{object.group}}</td>
-                </tr>
-                {% empty %}
-                    {% if request.GET.q %}
-                    <p><No Patient Found</p>
-                    {% else %}
-                    <p>No Booking Done</p>
-                    {% endif %}
-                {% endfor %}
+            <tbody id="referal-container">
             </tbody>
             </table>
         </div>
+        <button class="btn" id='load-more'>Load More</button>
     {% endblock content %}

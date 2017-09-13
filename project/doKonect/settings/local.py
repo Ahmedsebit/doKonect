@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'accounts',
+    'rest_framework',
     'doctor_referral'
 ]
 
@@ -125,3 +128,5 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static-serve")
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

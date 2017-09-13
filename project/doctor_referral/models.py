@@ -22,3 +22,6 @@ class Doctor_Referral(models.Model):
     def get_absolute_url(self):
         return reverse("referral:detail", kwargs={"pk":self.pk})
 
+    class Meta:
+        ordering = ['-booking_date'] 
+

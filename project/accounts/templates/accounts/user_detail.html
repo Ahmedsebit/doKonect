@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <h1>{{object.username}} | <span>Patients List</span></h1>
+    <table class="table table-bordered">
+    <tbody>
+        <tr>
+        <th scope="row">Patient ID</th>
+    {% for referral in object.doctor_referral_set.all %}
+        <tr><td>{{referral}}</td></tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock content %}
