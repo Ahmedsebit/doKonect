@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'crispy_forms',
     'accounts',
     'rest_framework',
     'doctor_referral'
@@ -54,7 +54,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'doKonect.urls'
-
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/referral'
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

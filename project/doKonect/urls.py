@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import home, main
+from accounts.views import UserRegistrationView
 
 
 urlpatterns = [
@@ -25,8 +26,10 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^main/', main, name='main'),
     url(r'^referral/', include('doctor_referral.urls', namespace='referral')),
-    url(r'^profiles/', include('accounts.urls', namespace='profiles')),
     url(r'^api/referral/', include('doctor_referral.api.urls', namespace='referral-api')),
+    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^register/', UserRegistrationView.as_view(), name='register'),
+    url(r'^profiles/', include('accounts.urls', namespace='profiles')),
 ]
 
 if settings.DEBUG:

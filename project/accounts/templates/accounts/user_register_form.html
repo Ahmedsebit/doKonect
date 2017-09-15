@@ -1,0 +1,14 @@
+{% extends "home_base.html" %}
+
+{% load crispy_forms_tags %}
+
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <div class="col-sm-8 col-sm-offset-2">
+        <form class="form-contact" action="" method="POST"> {% csrf_token %} 
+        {{form|crispy}}
+        <input type="submit" value="Submit"  class="btn btn-primary">
+        </form>
+    </div>
+
+{% endblock content %}

@@ -14,7 +14,6 @@ from .models import Doctor_Referral
 class Doctor_Referral_CreateView(LoginRequiredMixin, FormUserNeededMixins, CreateView):
     form_class = Doctor_Referral_Form
     template_name = 'doctor_referral/doctor_referral_create.html'
-    login_url = '/admin/'
 
 class Doctor_Referral_UpdateView(LoginRequiredMixin, UserOwnerMixins, UpdateView):
     queryset = Doctor_Referral.objects.all()
@@ -28,14 +27,14 @@ class Doctor_Referral_DeleteView(LoginRequiredMixin, FormUserNeededMixins, Delet
     success_url = reverse_lazy("referral:list") 
 
 
-class Doctor_Referral_DetailView(DetailView):
+class Doctor_Referral_DetailView(LoginRequiredMixin, DetailView):
     queryset = Doctor_Referral.objects.all()
     
     def get_object(self):
         pk = self.kwargs.get('pk')
         return Doctor_Referral.objects.get(id=pk)
 
-class Doctor_Referral_ListView(ListView):
+class Doctor_Referral_ListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         

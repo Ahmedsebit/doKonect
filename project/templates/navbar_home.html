@@ -3,26 +3,9 @@
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      {% if request.user.is_authenticated %}
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Referrals <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Patients <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0" action="{% url 'login' %}">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
-        </form>
-      </div>
-      {% else %}
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto"><li class="nav-item active">
             <a class="nav-link" href="{% url 'main' %}">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
@@ -32,9 +15,8 @@
             <a class="nav-link" href="{% url 'main' %}">Contact <span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0" action="{% url 'register' %}">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Register</button>
+        <form class="form-inline mt-2 mt-md-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
         </form>
       </div>
-      {% endif %}
     </nav>
