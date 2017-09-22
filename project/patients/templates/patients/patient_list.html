@@ -1,0 +1,112 @@
+{% extends "base_api.html" %}
+
+    {% block script %}
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        $(document).ready(function(){
+            var query = getParameterByName('q')
+            var referList = [];
+            var nextReferralUrl;
+
+            function parseRefer(){
+                if (referList == 0){
+                    $("#referal-container").append(
+                                "<tr>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "</td>" +
+                                "<td>" + "</td>" +
+                                "</tr>"   
+                        )
+                }else{
+                $.each(referList, function(key,value){
+                        var firstname = value.firstname
+                        var lastname = value.lastname
+                        var dob = value.dob
+                        var gender = value.gender
+                        var patient = value.id
+                        $("#referal-container").append(
+                                "<tr>" +
+                                "<td>" + firstname + "</td>" +
+                                "<td>" + lastname + "</td>" +
+                                "<td>" + dob + "</td>" +
+                                "<td>" + gender + "</td>" +
+                                "<td>" + "<a href='"+ patient +"/referral/'>"+"View"+"</a>" + "</td>" +
+                                "</tr>"   
+                        )
+                    })
+                }
+            }
+
+            function fetchReferals(url){
+                var fetchUrl;
+                if(!url){
+                    fetchUrl = "/api/patients/"
+                }else{
+                    fetchUrl = url
+                }
+                $.ajax({
+                url:fetchUrl,
+                data:{
+                    'q':query
+                },
+                method:"GET",
+                success:function(data){
+                    referList = data.results
+                    nextReferralUrl = data.next;
+                    parseRefer()
+                    
+                },
+                error: function(data){
+                    console.log("error");
+                    console.log(data);
+                }
+                })
+            }
+
+            fetchReferals()
+
+            $('#load-more').click("click", function(event){
+                event.preventDefault()
+                if (nextReferralUrl){
+                    fetchReferals(nextReferralUrl)
+                }          
+            })
+
+            
+        });
+
+    </script>
+    {% endblock script %}
+
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    {% include "patients/search_form.html" %}</br>
+    <!-- Button trigger modal -->
+    <h2>Patients</h2>
+    <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>First Name</th>
+                <th>Second Name</th>
+                <th>Date Of Birth</th>
+                <th>SEX</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="referal-container">
+            </tbody>
+            </table>
+        </div>
+        <button class="btn" id='load-more'>Load More</button>
+    {% endblock content %}

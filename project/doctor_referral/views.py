@@ -15,11 +15,13 @@ class Doctor_Referral_CreateView(LoginRequiredMixin, FormUserNeededMixins, Creat
     form_class = Doctor_Referral_Form
     template_name = 'doctor_referral/doctor_referral_create.html'
 
+
 class Doctor_Referral_UpdateView(LoginRequiredMixin, UserOwnerMixins, UpdateView):
     queryset = Doctor_Referral.objects.all()
     form_class = Doctor_Referral_Form
     template_name = 'doctor_referral/doctor_referral_update.html'
     login_url = '/admin/'
+
 
 class Doctor_Referral_DeleteView(LoginRequiredMixin, FormUserNeededMixins, DeleteView):
     model = Doctor_Referral
@@ -29,18 +31,16 @@ class Doctor_Referral_DeleteView(LoginRequiredMixin, FormUserNeededMixins, Delet
 
 class Doctor_Referral_DetailView(LoginRequiredMixin, DetailView):
     queryset = Doctor_Referral.objects.all()
-    
     def get_object(self):
         pk = self.kwargs.get('pk')
         return Doctor_Referral.objects.get(id=pk)
 
+
 class Doctor_Referral_ListView(LoginRequiredMixin, ListView):
 
-    def get_queryset(self, *args, **kwargs):
-        
+    def get_queryset(self, *args, **kwargs):        
         qs = Doctor_Referral.objects.all()
         query = self.request.GET.get("q", None)
-
         if query is not None:
             qs = qs.filter(
                 Q(patient_id__icontains=query) |

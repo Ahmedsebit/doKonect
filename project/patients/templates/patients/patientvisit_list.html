@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+    {% block script %}
+    <script>
+
+    </script>
+    {% endblock script %}
+
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <!-- Button trigger modal -->
+    {% if object_list %}
+    {% include "patients/search_form.html" %}</br>
+    {% with object_list|first as first_object %}
+        <h2>{{first_object.patient.firstname}} {{first_object.patient.lastname}}</h2> 
+        <table class="table table-bordered">
+            <tbody>
+                <th scope="row">Date Of Birth</th>
+                <td>{{first_object.patient.dob}}</td>
+                </tr>
+                <tr>
+                <th scope="row">SEX</th>
+                <td colspan="2">{{first_object.patient.gender}}</td>
+                </tr>
+                <tr>
+                <th scope="row">Phone Number</th>
+                <td colspan="2">{{first_object.patient.phonenumber}}</td>
+                </tr>
+                <tr>
+                <th scope="row">Address</th>
+                <td colspan="2">{{first_object.patient.address}}</td>
+                </tr>
+            </tbody>
+            </table>
+        <a class="btn btn-dark" href="{% url 'patients:addreferral' first_object.patient.id %}">Add Referral</a>
+    {% endwith %}
+        <div class="table-responsive">
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th>Date</th>
+                    <th>Service Requested</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="referal-container">
+                    {% for obj in object_list %}
+                    <tr><td>{{obj.date}}</td><td>{{obj.service_requested}}</td><td><a href="{% url 'patients:detailreferral' obj.patient.id obj.id %}">View</a></td></tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            <button class="btn" id='load-more'>Load More</button>
+    {% else %}
+    <h2 style="color:crimson;">Patient has no referrals</h2>
+    <button class="btn btn-dark">Add Referral</button>
+    {% endif %}
+    {% endblock content %}

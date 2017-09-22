@@ -10,26 +10,26 @@
             <a class="nav-link" href="{% url 'main' %}">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Referrals <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'referral:list' %}">Referrals <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Patients <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'patients:list' %}">Patients <span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0" action="{% url 'login' %}">
+        <form class="form-inline mt-2 mt-md-0" action="{% url 'logout' %}">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
         </form>
       </div>
       {% else %}
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto"><li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">About <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'main' %}">Contact <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
           </li>
         </ul>
         <form class="form-inline mt-2 mt-md-0" action="{% url 'register' %}">
