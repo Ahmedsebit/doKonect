@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from .views import (
-    UserDetailView
+    UserDetailView,
+    UserProfileDetailView
 )
 
 urlpatterns = [
@@ -8,6 +9,6 @@ urlpatterns = [
     # url(r'^(?P<pk>\d+)/update/$', Doctor_Referral_UpdateView.as_view(), name='update'),
     # url(r'^(?P<pk>\d+)/delete/$', Doctor_Referral_DeleteView.as_view(), name='delete'),
     # url(r'^$', Doctor_Referral_ListView.as_view(), name='list'),
-    url(r'^(?P<username>[\w.@+-]+)/$', UserDetailView.as_view(), name='detail'),
+    url(r'^(?P<username>[\w.@+-]+)/$', UserProfileDetailView.as_view(), name='detail'),
 ]
 

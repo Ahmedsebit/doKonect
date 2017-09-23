@@ -9,8 +9,8 @@
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
     <!-- Button trigger modal -->
+    <div class="col-sm-11 col-md-11 d-none d-sm-block"> 
     {% if object_list %}
-    {% include "patients/search_form.html" %}</br>
     {% with object_list|first as first_object %}
         <h2>{{first_object.patient.firstname}} {{first_object.patient.lastname}}</h2> 
         <table class="table table-bordered">
@@ -33,6 +33,7 @@
             </tbody>
             </table>
         <a class="btn btn-dark" href="{% url 'patients:addreferral' first_object.patient.id %}">Add Referral</a>
+        <div class="referral"></div>
     {% endwith %}
         <div class="table-responsive">
                 <table class="table table-striped">
@@ -54,5 +55,6 @@
     {% else %}
     <h2 style="color:crimson;">Patient has no referrals</h2>
     <button class="btn btn-dark">Add Referral</button>
+    </div>
     {% endif %}
     {% endblock content %}

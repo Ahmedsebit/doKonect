@@ -90,8 +90,10 @@
 
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
+    <div class="col-sm-11 col-md-11 d-none d-sm-block"> 
     {% include "patients/search_form.html" %}</br>
     <!-- Button trigger modal -->
+     
     <h2>Patients</h2>
     <div class="table-responsive">
             <table class="table table-striped">
@@ -109,4 +111,5 @@
             </table>
         </div>
         <button class="btn" id='load-more'>Load More</button>
+    </div>
     {% endblock content %}

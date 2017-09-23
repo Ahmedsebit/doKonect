@@ -3,8 +3,7 @@ from django.views.generic import DetailView
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import FormView
 from .forms import UserRegistrationForm
-from .forms import ProfileForm
-from .models import Profile
+
 # Create your views here.
 
 User = get_user_model()
@@ -27,19 +26,8 @@ class UserRegistrationView(FormView):
 class UserDetailView(DetailView):
 
     template_name = 'accounts/user_detail.html'
-    queryset = User.objects.all()
+    # queryset = User.objects.all()
     
     def get_object(self):
         username = self.kwargs.get('username')
         return User.objects.get(username=username)
-
-
-class UserProfileDetailView(DetailView):
-
-    template_name = 'accounts/user_profile.html'
-    # queryset = User.objects.all()
-    form_class = ProfileForm
-    
-    def get_object(self):
-        username = self.kwargs.get('username')
-        return Profile.objects.get(user=2)

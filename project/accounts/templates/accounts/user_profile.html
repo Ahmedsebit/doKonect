@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <h1>{{object.name}} </span></h1>
+
+    <div class="referral">
+        <dt>Location: </dt> 
+        {{object.location}}
+    </div>
+
+    <div class="referral">
+        <dt>Phone Number: </dt> 
+        {{object.phonenumber}}
+    </div>
+
+    <div class="referral">
+        <dt>Email: </dt> 
+        {{object.date}}
+    </div>
+
+
+    
+{% endblock content %}

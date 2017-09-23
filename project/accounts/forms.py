@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from .models import Profile
 
 User = get_user_model()
 
@@ -32,3 +33,14 @@ class UserRegistrationForm(forms.Form):
         if User.objects.filter(email__icontains=email).exists():
             raise forms.ValidationError("Email is already registered")
         return email
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+            'phonenumber', 
+            'location', 
+            'name'
+        ]
+
+        

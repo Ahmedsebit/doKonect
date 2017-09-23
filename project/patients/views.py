@@ -59,6 +59,7 @@ class PatientVisit_CreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.patient_id = self.kwargs['patient_id']
+        form.instance.user_id = self.request.user
         return super(PatientVisit_CreateView, self).form_valid(form)
 
 
