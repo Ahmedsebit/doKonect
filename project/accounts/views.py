@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import FormView
 from .forms import UserRegistrationForm
@@ -34,6 +34,16 @@ class UserDetailView(DetailView):
         return User.objects.get(username=username)
 
 
+class UserProfileCreateView(CreateView):
+    form_class = ProfileForm
+    template_name = 'accounts/user_profile_create.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(UserProfileCreateView, self).form_valid(form)
+
+
 class UserProfileDetailView(DetailView):
 
     template_name = 'accounts/user_profile.html'
@@ -42,4 +52,8 @@ class UserProfileDetailView(DetailView):
     
     def get_object(self):
         username = self.kwargs.get('username')
-        return Profile.objects.get(user=2)
+        # profile = Profile.objects.get(user=self.request.user)
+        try:
+            return Profile.objects.get(user=self.request.user)
+        except Profile.DoesNotExist:
+            return None

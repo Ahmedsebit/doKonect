@@ -15,6 +15,11 @@ class Patient_CreateView(CreateView):
     form_class = Patient_Form
     template_name = 'patients/patients_create.html'
 
+    def form_valid(self, form):
+        # form.instance.patient_id = self.kwargs['patient_id']
+        form.instance.user = self.request.user
+        return super(Patient_CreateView, self).form_valid(form)
+
 
 class Patient_UpdateView(UpdateView):
     queryset = Patient.objects.all()
