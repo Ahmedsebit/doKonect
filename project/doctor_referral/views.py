@@ -9,6 +9,7 @@ from .mixins import FormUserNeededMixins, UserOwnerMixins
 
 from .forms import Doctor_Referral_Form
 from .models import Doctor_Referral
+from patients.models import PatientVisit
 
 # Create your views here.
 class Doctor_Referral_CreateView(LoginRequiredMixin, FormUserNeededMixins, CreateView):
@@ -38,8 +39,10 @@ class Doctor_Referral_DetailView(LoginRequiredMixin, DetailView):
 
 class Doctor_Referral_ListView(LoginRequiredMixin, ListView):
 
+    template_name = 'doctor_referral/doctor_referral_list.html'
+
     def get_queryset(self, *args, **kwargs):        
-        qs = Doctor_Referral.objects.all()
+        qs = PatientVisit.objects.all()
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(

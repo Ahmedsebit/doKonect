@@ -1,16 +1,22 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Profile
+from .models import Profile, DoctorProfile
 
 User = get_user_model()
 
 
 class UserRegistrationForm(forms.Form):
 
+    REGISTRATION_CHOICES = (
+        ('doctors', 'Doctor'),
+        ('clinics', 'Clinic'),
+    )
+
     username = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    register_as = forms.CharField(max_length=10, widget=forms.Select(choices=REGISTRATION_CHOICES))
 
     def clean_password2(self):
         password= self.cleaned_data.get('password')
@@ -41,6 +47,16 @@ class ProfileForm(forms.ModelForm):
             'phonenumber', 
             'location', 
             'name'
+        ]
+
+class DoctorProfileForm(forms.ModelForm):
+    class Meta:
+        model = DoctorProfile
+        fields = [
+            'phonenumber', 
+            'location', 
+            'full_name',
+            'doctor_type'
         ]
 
         

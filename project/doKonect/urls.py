@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import home, main
 from accounts.views import UserRegistrationView
-
+from doKonect import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^register/', UserRegistrationView.as_view(), name='register'),
     url(r'^profiles/', include('accounts.urls', namespace='profiles')),
+    url(r'login_success/$', views.login_success, name='login_success')
 ]
 
 if settings.DEBUG:

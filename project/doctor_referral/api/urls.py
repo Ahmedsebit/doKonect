@@ -6,6 +6,7 @@ from .views import (
 
 urlpatterns = [
     url(r'^$', Doctor_ReferralListAPIView.as_view(), name='list'),
+    
     url(r'^create/$', Doctor_ReferralCreateAPIView.as_view(), name='create'),
 ]
 

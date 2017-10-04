@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_doctor" %}
     {% block title %}{{block.super}} | Delete {% endblock title %}
         <form action="" method="post">{% csrf_token %}
             <p>Are you sure you want to delete Patient "{{ object }}"?</p>

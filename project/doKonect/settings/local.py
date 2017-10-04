@@ -56,8 +56,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'doKonect.urls'
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/referral'
-LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+LOGIN_REDIRECT_URL = 'login_success'
+LOGOUT_REDIRECT_URL = '/login/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

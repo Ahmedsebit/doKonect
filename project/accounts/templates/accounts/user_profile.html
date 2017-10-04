@@ -18,7 +18,13 @@
 
     <div class="referral">
         <dt>Email: </dt> 
-        {{object.date}}
+        {{object.user.email}}
     </div>
+
+    <div class="referral">
+        <dt>Username: </dt> 
+        {{object.user.username}}
+    </div>
+    
     {% endif %}
 {% endblock content %}

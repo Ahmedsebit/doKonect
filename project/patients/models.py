@@ -3,6 +3,36 @@ from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.db import models
 
+# SERVICE_CHOICES = (
+#     ('Allergist or Immunologist','Allergist or Immunologist'), 
+#     ('Anesthesiologist','Anesthesiologist'),
+#     ('Cardiologist', 'Cardiologist'),
+#     ('Dermatologist','Dermatologist'), 
+# 'Gastroenterologist'
+# 'Hematologist/Oncologist'
+# 'Internal Medicine Physician'
+# 'Nephrologist'
+# 'Neurologist'
+# 'Neurosurgeon'
+# 'Obstetrician'
+# 'Gynecologist'
+# 'Nurse-Midwifery'
+# 'Occupational Medicine Physician'
+# 'Ophthalmologist'
+# 'Oral and Maxillofacial Surgeon'
+# 'Orthopaedic Surgeon'
+# 'Otolaryngologist'
+# 'Pathologist'
+# 'Pediatrician'
+# 'Plastic Surgeon'
+# 'Podiatrist'
+# 'Psychiatrist'
+# 'Pulmonary Medicine Physician'
+# 'Radiation Onconlogist'
+# 'Diagnostic Radiologist '
+# 'Rheumatologist'
+# 'Urologist'
+# )
 
 # Create your models here.
 class Patient(models.Model):
@@ -24,11 +54,21 @@ class Patient(models.Model):
     class Meta:
         ordering = ['-firstname']
 
+class DoctorServices(models.Model):
+    service = models.TextField(max_length=100, default='Anonymous')
+    service_information = models.TextField(max_length=200, default='Anonymous')
+
+    def __str__(self):
+        return self.service
+
+    class Meta:
+        ordering = ['-service']
+        
 class PatientVisit(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     diagnosis = models.TextField(max_length=1000, default='Anonymous')
-    service_requested = models.TextField(max_length=200, default='Anonymous')
+    service_requested = models.ForeignKey(DoctorServices, on_delete=models.CASCADE)
     user_id = models.TextField(settings.AUTH_USER_MODEL)
     service_type_requested = models.TextField(max_length=200, default='Anonymous')
     referral_reason = models.TextField(max_length=2000, default='Anonymous')
@@ -42,3 +82,5 @@ class PatientVisit(models.Model):
     class Meta:
         ordering = ['-date']
 
+
+        

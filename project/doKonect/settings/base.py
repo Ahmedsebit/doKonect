@@ -56,9 +56,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'doKonect.urls'
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/referral'
+LOGIN_REDIRECT_URL = 'login_success'
 
-LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+LOGOUT_REDIRECT_URL = '/login/'
 
 TEMPLATES = [
     {

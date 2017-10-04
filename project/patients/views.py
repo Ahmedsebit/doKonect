@@ -11,7 +11,7 @@ from .forms import Patient_Form, PatientVisit_Form
 from .models import Patient, PatientVisit
 
 # Create your views here.
-class Patient_CreateView(CreateView):
+class Patient_CreateView(LoginRequiredMixin, CreateView):
     form_class = Patient_Form
     template_name = 'patients/patients_create.html'
 
@@ -21,7 +21,7 @@ class Patient_CreateView(CreateView):
         return super(Patient_CreateView, self).form_valid(form)
 
 
-class Patient_UpdateView(UpdateView):
+class Patient_UpdateView(LoginRequiredMixin, UpdateView):
     queryset = Patient.objects.all()
     form_class = Patient_Form
     template_name = 'patients/patients_update.html'
@@ -31,14 +31,14 @@ class Patient_DeleteView(DeleteView):
     template_name = 'patients/patients_delete.html'
     success_url = reverse_lazy("patients:list") 
 
-class Patient_DetailView(DetailView):
+class Patient_DetailView(LoginRequiredMixin, DetailView):
     
     queryset = Patient.objects.all()
     def get_object(self):
         pk = self.kwargs.get('pk')
         return Patient.objects.get(id=pk)
 
-class Patient_ListView(ListView):
+class Patient_ListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = Patient.objects.all()
@@ -57,7 +57,7 @@ class Patient_ListView(ListView):
 '''
 PatientVisit Details
 '''
-class PatientVisit_CreateView(CreateView):
+class PatientVisit_CreateView(LoginRequiredMixin, CreateView):
     form_class = PatientVisit_Form
     template_name = 'patients/patientsvisit_create.html'
     success_url = '/patients/'
@@ -68,26 +68,26 @@ class PatientVisit_CreateView(CreateView):
         return super(PatientVisit_CreateView, self).form_valid(form)
 
 
-class PatientVisit_UpdateView(UpdateView):
+class PatientVisit_UpdateView(LoginRequiredMixin, UpdateView):
     queryset = PatientVisit.objects.all()
     form_class = PatientVisit_Form
     template_name = 'patients/patientsvisit_update.html'
 
 
-class PatientVisit_DeleteView(DeleteView):
+class PatientVisit_DeleteView(LoginRequiredMixin, DeleteView):
     model = PatientVisit
     template_name = 'patients/patientsvisit_delete.html'
     success_url = reverse_lazy("patients:list") 
 
 
-class PatientVisit_DetailView(DetailView):
+class PatientVisit_DetailView(LoginRequiredMixin, DetailView):
     queryset = PatientVisit.objects.all()
     def get_object(self):
         pk = self.kwargs.get('pk')
         return PatientVisit.objects.get(id=pk)
 
 
-class PatientVisitAll_ListView(ListView):
+class PatientVisitAll_ListView(LoginRequiredMixin, ListView):
     def get_queryset(self, *args, **kwargs):
         qs = PatientVisit.objects.all()
         query = self.request.GET.get("q", None)
@@ -100,7 +100,7 @@ class PatientVisitAll_ListView(ListView):
         return qs
 
 
-class PatientVisitPatient_ListView(ListView):
+class PatientVisitPatient_ListView(LoginRequiredMixin, ListView):
     template_name = 'patients/patientvisit_list.html'
     def get_queryset(self, *args, **kwargs):
         patient_id = self.kwargs.get('patient_id')
@@ -116,7 +116,7 @@ class PatientVisitPatient_ListView(ListView):
         context = super(PatientVisitPatient_ListView, self).get_context_data(*args, **kwargs)
         return context
 
-class PatientVisitPatient_DetailView(DetailView):
+class PatientVisitPatient_DetailView(LoginRequiredMixin, DetailView):
     queryset = PatientVisit.objects.all()
     def get_object(self):
         pk = self.kwargs.get('pk')

@@ -11,10 +11,8 @@ class UserDisplaySerializer(serializers.ModelSerializer):
         model = User
 
         fields = [
-            'username',
             'first_name',
             'last_name',
-            'url'
         ]
 
     def get_referal_count(self, obj):

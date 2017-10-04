@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Patient, PatientVisit
+from .models import Patient, PatientVisit, DoctorServices
 
 class Patient_Form(forms.ModelForm):
 
@@ -28,4 +28,11 @@ class PatientVisit_Form(forms.ModelForm):
             "referral_reason"
         ]
 
+class DoctorServices_Form(forms.ModelForm):
     
+    class Meta:
+        model = DoctorServices
+        fields = [
+            "service",
+            "service_information"
+        ]

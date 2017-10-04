@@ -3,8 +3,10 @@ from django.views.generic import DetailView, CreateView
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import FormView
 from .forms import UserRegistrationForm
-from .forms import ProfileForm
-from .models import Profile
+from .forms import ProfileForm, DoctorProfileForm
+from .models import Profile, DoctorProfile
+from django.contrib.auth.models import Group
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 User = get_user_model()
@@ -17,15 +19,17 @@ class UserRegistrationView(FormView):
     def form_valid(self, form):
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
+        register_as = form.cleaned_data.get("register_as")
         password = form.cleaned_data.get("password")
         new_user = User.objects.create(username=username, email=email, password=password)
         new_user.set_password(password)
+        group = Group.objects.get(name=register_as)
+        new_user.groups.add(group)
         new_user.save()
         return super(UserRegistrationView, self).form_valid(form)
 
 
-class UserDetailView(DetailView):
-
+class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/user_detail.html'
     queryset = User.objects.all()
     
@@ -34,7 +38,7 @@ class UserDetailView(DetailView):
         return User.objects.get(username=username)
 
 
-class UserProfileCreateView(CreateView):
+class UserProfileCreateView(LoginRequiredMixin, CreateView):
     form_class = ProfileForm
     template_name = 'accounts/user_profile_create.html'
     success_url = '/'
@@ -44,16 +48,31 @@ class UserProfileCreateView(CreateView):
         return super(UserProfileCreateView, self).form_valid(form)
 
 
-class UserProfileDetailView(DetailView):
+class DoctorProfileCreateView(LoginRequiredMixin, CreateView):
+    form_class = DoctorProfileForm
+    template_name = 'accounts/doctor_profile_create.html'
+    success_url = '/'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(DoctorProfileCreateView, self).form_valid(form)
+
+
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/user_profile.html'
-    # queryset = User.objects.all()
-    form_class = ProfileForm
-    
     def get_object(self):
         username = self.kwargs.get('username')
-        # profile = Profile.objects.get(user=self.request.user)
         try:
             return Profile.objects.get(user=self.request.user)
         except Profile.DoesNotExist:
+            return None
+
+
+class DoctorProfileDetailView(LoginRequiredMixin, DetailView):
+    template_name = 'accounts/doctor_profile.html'
+    def get_object(self):
+        username = self.kwargs.get('username')
+        try:
+            return DoctorProfile.objects.get(user=self.request.user)
+        except DoctorProfile.DoesNotExist:
             return None

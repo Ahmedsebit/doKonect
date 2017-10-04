@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_doctor.html" %}
 
     {% block script %}
     <script>
@@ -29,16 +29,16 @@
                         )
                 }else{
                 $.each(referList, function(key,value){
-                        var patient_id = value.patient_id
-                        var doctor_id = value.doctor_id
-                        var booked_date = value.booked_date
-                        var group = value.group
+                        var date = value.date
+                        var patient = value.patient.firstname + ' ' +value.patient.lastname 
+                        var service_requested = value.service_requested.service
+                        var clinic = value.user_id
                         $("#referal-container").append(
                                 "<tr>" +
-                                "<td>" + patient_id + "</td>" +
-                                "<td>" + doctor_id + "</td>" +
-                                "<td>" + booked_date + "</td>" +
-                                "<td>" + group + "</td>" +
+                                "<td>" + date + "</td>" +
+                                "<td>" + patient + "</td>" +
+                                "<td>" + service_requested + "</td>" +
+                                "<td>" + clinic + "</td>" +
                                 "</tr>"   
                         )
                     })
@@ -49,7 +49,7 @@
                 console.log("fetching...")
                 var fetchUrl;
                 if(!url){
-                    fetchUrl = "/api/referral/"
+                    fetchUrl = "/api/patients/referral/"
                 }else{
                     fetchUrl = url
                 }
@@ -116,10 +116,10 @@
             <table class="table table-striped">
             <thead>
                 <tr>
-                <th>Patient ID</th>
-                <th>Doctor ID</th>
                 <th>Date</th>
-                <th>Group</th>
+                <th>Patient</th>
+                <th>Service Requested</th>
+                <th>Clinic</th>
                 </tr>
             </thead>
             <tbody id="referal-container">
