@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^main/', main, name='main'),
     url(r'^referral/', include('doctor_referral.urls', namespace='referral')),
+    url(r'^clinic/', include('clinic.urls', namespace='clinic')),
     url(r'^patients/', include('patients.urls', namespace='patients')),
     url(r'^api/referral/', include('doctor_referral.api.urls', namespace='referral-api')),
     url(r'^api/patients/', include('patients.api.urls', namespace='patients-api')),

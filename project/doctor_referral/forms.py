@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Doctor_Referral
+from .models import Doctor_Referral, Clinic_ReferralDate
 
 class Doctor_Referral_Form(forms.ModelForm):
 
@@ -13,3 +13,13 @@ class Doctor_Referral_Form(forms.ModelForm):
             "group",
             "comments"
         ]
+
+class Clinic_ReferralDate_Form(forms.ModelForm):
+
+    class Meta:
+        model = Clinic_ReferralDate
+        fields = [
+            "clinic_name",
+            "clinic_date",
+        ]
+

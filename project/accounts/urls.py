@@ -4,7 +4,7 @@ from .views import (
     UserProfileDetailView,
     UserProfileCreateView,
     DoctorProfileCreateView,
-    DoctorProfileDetailView
+    DoctorProfileDetailView,
 )
 
 urlpatterns = [

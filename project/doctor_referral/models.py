@@ -25,3 +25,21 @@ class Doctor_Referral(models.Model):
     class Meta:
         ordering = ['-booking_date'] 
 
+class Clinic_ReferralDate(models.Model):
+    clinic_name = models.CharField(max_length=100)
+    clinic_details = models.CharField(max_length=1000)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL)
+    booking_date = models.DateTimeField(auto_now_add=True)
+    clinic_date = models.DateTimeField(validators=[validate_booked_date])
+    doctor_accept = models.CharField(max_length=250)
+    clinic_accept = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return (self.clinic_name)
+
+    # def get_absolute_url(self):
+    #     return reverse("referral:detail", kwargs={"pk":self.pk})
+
+    class Meta:
+        ordering = ['-clinic_date'] 
+

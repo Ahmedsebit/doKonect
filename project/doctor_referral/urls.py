@@ -4,7 +4,7 @@ from .views import (
     Doctor_Referral_UpdateView,
     Doctor_Referral_DetailView, 
     Doctor_Referral_ListView,
-    Doctor_Referral_DeleteView
+    Doctor_Referral_DeleteView,
 )
 
 urlpatterns = [

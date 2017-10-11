@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from .views import (
     Doctor_ReferralListAPIView,
-    Doctor_ReferralCreateAPIView
+    Doctor_ReferralCreateAPIView,
 )
 
 urlpatterns = [

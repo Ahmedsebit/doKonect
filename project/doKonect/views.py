@@ -15,9 +15,8 @@ def login_success(request):
     Redirects users based on whether they are in the admins group
     """
     if request.user.groups.filter(name='clinics').exists():
-        # user is a clinic
-        return HttpResponseRedirect(reverse_lazy("patients:list"))
+        return HttpResponseRedirect(reverse_lazy("clinic:cliniclist"))
     elif request.user.groups.filter(name='doctors').exists():
-        return HttpResponseRedirect(reverse_lazy("referral:list"))
+        return HttpResponseRedirect(reverse_lazy("clinic:doctorlist"))
     else:
-        return HttpResponseRedirect(reverse_lazy("referral:list"))
+        return HttpResponseRedirect(reverse_lazy("clinic:list"))
