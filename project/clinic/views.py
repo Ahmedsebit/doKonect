@@ -58,7 +58,20 @@ class Clinic_Date_MainClinicDetailView(LoginRequiredMixin, DetailView):
     template_name = 'clinic/mainclinic_detail_view.html'
     def get_object(self):
         pk = self.kwargs.get('pk')
-        return Clinic_Date.objects.get(id=pk)
+        clinic = Clinic_Date.objects.get(id=pk)
+        try:
+            clinic_patients = Clinic_Date_Patients.objects.filter(
+                                                            Q(clinic__id__iexact=clinic.id)
+                                                            )
+            context = {'clinic':clinic, 'clinic_patients':clinic_patients}
+            return context
+        except:
+            clinic_patients = Clinic_Date_Patients.objects.filter(
+                                                            Q(clinic__id__iexact=clinic.id)
+                                                            )
+            context = {'clinic':clinic, 'clinic_patients':None}
+            return context
+
 
 
 class Clinic_Date_ClinicDetailView(LoginRequiredMixin, DetailView):
@@ -67,11 +80,29 @@ class Clinic_Date_ClinicDetailView(LoginRequiredMixin, DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
         clinic = Clinic_Date.objects.get(id=pk)
+        patients = PatientVisit.objects.all()
         try:
             clinic_patients = Clinic_Date_Patients.objects.filter(
                                                             Q(clinic__id__iexact=clinic.id)
                                                             )
+            clinic_object = {'clinic':clinic, 'clinic_patients':clinic_patients, 'patients':patients}
+            return clinic_object
+        except:
             patients = PatientVisit.objects.all()
+            clinic_object = {'clinic':clinic, 'clinic_patients':None, 'patients':patients}
+            return clinic_object
+
+class Clinic_Date_DoctorDetailView(LoginRequiredMixin, DetailView):
+    queryset = Clinic_Date.objects.all()
+    template_name = 'clinic/doctorclinic_detail_view.html'
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        clinic = Clinic_Date.objects.get(id=pk)
+        patients = PatientVisit.objects.all()
+        try:
+            clinic_patients = Clinic_Date_Patients.objects.filter(
+                                                            Q(clinic__id__iexact=clinic.id)
+                                                            )
             clinic_object = {'clinic':clinic, 'clinic_patients':clinic_patients, 'patients':patients}
             return clinic_object
         except:
