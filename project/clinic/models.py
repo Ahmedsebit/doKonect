@@ -30,12 +30,13 @@ class Clinic_Date(models.Model):
         ordering = ['-clinic_date'] 
 
 class Clinic_Date_Patients(models.Model):
-    clinic = models.OneToOneField(Clinic_Date, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
+    clinic = models.ForeignKey(Clinic_Date)
+    user = models.ForeignKey(User)
+    patient = models.ForeignKey(Patient)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (self.clinic.clinic_name)
+        return (str(self.clinic))
 
     class Meta:
-        ordering = ['-clinic'] 
+        ordering = ['-date'] 
