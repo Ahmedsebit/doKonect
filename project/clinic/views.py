@@ -28,6 +28,16 @@ class Clinic_Date_CreateView(LoginRequiredMixin, FormUserNeededMixins, CreateVie
         form.instance.user = self.request.user
         form.instance.clinic_type = this_user.doctor_type
         form.instance.doctor_accept = 'True'
+
+        recepient = User.objects.get(username='shofco')
+
+        send_mail(
+        'New CLinic', 'A new clinic has been created.', 
+        this_user.email, 
+        [recepient], 
+        fail_silently=False
+        )
+        
         return super(Clinic_Date_CreateView, self).form_valid(form)
 
 
@@ -41,7 +51,17 @@ class Clinic_Date_DoctorCreateView(LoginRequiredMixin, FormUserNeededMixins, Cre
         form.instance.user = self.request.user
         form.instance.clinic_type = this_user.doctor_type
         form.instance.doctor_accept = 'True'
-        return super(Clinic_Date_CreateView, self).form_valid(form)
+
+        recepient = User.objects.get(username='shofco')
+
+        send_mail(
+        'New CLinic', 'A new clinic has been created.', 
+        this_user.email, 
+        [recepient], 
+        fail_silently=False
+        )
+
+        return super(Clinic_Date_DoctorCreateView, self).form_valid(form)
 
 
 class Clinic_Date_UpdateView(LoginRequiredMixin, UserOwnerMixins, UpdateView):
@@ -223,8 +243,6 @@ def addpatient_view(request, *args, **kwargs):
     print (user)
     new_patient = Clinic_Date_Patients.objects.create(clinic=my_obj, user=user, patient=patient_obj)
     new_patient.save()
-    return HttpResponseRedirect(reverse_lazy("clinic:cliniclist"))
-
     send_mail(
         'New patient', 'A new patient has been added to the clinic.', 
         user.email, 
@@ -232,3 +250,4 @@ def addpatient_view(request, *args, **kwargs):
         fail_silently=False
         )
 
+    return HttpResponseRedirect(reverse_lazy("clinic:cliniclist"))
