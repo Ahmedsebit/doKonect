@@ -13,6 +13,7 @@ from .forms import Clinic_Date_Form
 from .models import Clinic_Date, Clinic_Date_Patients
 from accounts.models import DoctorProfile
 from patients.models import PatientVisit, Patient
+from django.core.mail import send_mail
 
 User = get_user_model()
 
@@ -181,25 +182,53 @@ class Clinic_Date_ClinicListView(LoginRequiredMixin, ListView):
 
 def accept_view(request, *args, **kwargs):
     my_obj = Clinic_Date.objects.filter(pk=kwargs['id'])
+    sender = User.objects.get(username='shofco')
     if my_obj:
         my_obj = my_obj[0]
         my_obj.clinic_accept = "Accepted"
         my_obj.save()
+
+    send_mail(
+        'Clinic Status', 'Clinic has been approved.', 
+        sender, 
+        [my_obj.user_id.email], 
+        fail_silently=False
+        )
+
     return HttpResponseRedirect(reverse_lazy("clinic:list"))
 
 def reject_view(request, *args, **kwargs):
     my_obj = Clinic_Date.objects.filter(pk=kwargs['id'])
+    sender = User.objects.get(username='shofco')
     if my_obj:
         my_obj = my_obj[0]
         my_obj.clinic_accept = "Rejected"
         my_obj.save()
+
+    send_mail(
+        'Clinic Status', 'Clinic has been rejeced.', 
+        sender,
+        [my_obj.user_id.email],
+        fail_silently=False
+        )
+
     return HttpResponseRedirect(reverse_lazy("clinic:list"))
+
 
 def addpatient_view(request, *args, **kwargs):
     my_obj = Clinic_Date.objects.get(pk=kwargs['clinic_id'])
     patient_obj = Patient.objects.get(pk=kwargs['patient_id'])
+    sender = User.objects.get(username='shofco')
     user = User.objects.get(username=request.user)
     print (user)
     new_patient = Clinic_Date_Patients.objects.create(clinic=my_obj, user=user, patient=patient_obj)
     new_patient.save()
     return HttpResponseRedirect(reverse_lazy("clinic:cliniclist"))
+
+    send_mail(
+        'New patient', 'A new patient has been added to the clinic.', 
+        user.email, 
+        [sender, my_obj.user_id.email], 
+        fail_silently=False
+        )
+
