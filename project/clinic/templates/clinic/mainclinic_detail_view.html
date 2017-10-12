@@ -2,23 +2,36 @@
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
     <div class="referral">
-        <dt>Clinic</dt>
-        {{object.clinic_name}}
-    </div>
-    <div class="referral">
+        <dt>Clinic: {{object.clinic.clinic_name}}</dt>
+        <dt>Date: {{object.clinic.clinic_date}}</dt>
+        <dt>Doctor: {{object.clinic.user_id.username}}</dt>
         <dt>Details</dt>
-        {{object.clinic_details}}
+        <p>{{object.clinic.clinic_details}}</p> 
     </div>
-    <div class="referral">
-        <dt>Date</dt>
-        {{object.clinic_date}}
-    </div>
-    <div class="referral">
-        <dt>Doctor</dt>
-        {{object.user_id.username}}
-    </div>
-    <div class="referral">
-        <dt>Speciality</dt>
-        {{object.user_id.speciality}}
-    </div>
+
+    {% if object.clinic_patients %}
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Clinic</th>
+            <th>Service Requested</th>
+        </tr>
+    </thead>
+    <tbody id="referal-container">
+        {% for obj in object.clinic_patients %}
+        <tr>
+            <td>{{obj.patient.firstname}} {{obj.patient.lastname}}</td>
+            <td>{{obj.user}} </td>
+            <td>{{obj.user}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    {% else %}
+    No patients added yet 
+     <!-- Button trigger modal -->
+    {% endif %}
+
+
 {% endblock content %}

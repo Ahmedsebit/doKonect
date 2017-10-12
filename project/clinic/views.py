@@ -30,6 +30,19 @@ class Clinic_Date_CreateView(LoginRequiredMixin, FormUserNeededMixins, CreateVie
         return super(Clinic_Date_CreateView, self).form_valid(form)
 
 
+class Clinic_Date_DoctorCreateView(LoginRequiredMixin, FormUserNeededMixins, CreateView):
+    form_class = Clinic_Date_Form
+    template_name = 'clinic/doctorclinic_date_create.html'
+
+    def form_valid(self, form):
+        # form.instance.patient_id = self.kwargs['patient_id']
+        this_user = DoctorProfile.objects.get(user=self.request.user)
+        form.instance.user = self.request.user
+        form.instance.clinic_type = this_user.doctor_type
+        form.instance.doctor_accept = 'True'
+        return super(Clinic_Date_CreateView, self).form_valid(form)
+
+
 class Clinic_Date_UpdateView(LoginRequiredMixin, UserOwnerMixins, UpdateView):
     queryset = Clinic_Date.objects.all()
     form_class = Clinic_Date_Form

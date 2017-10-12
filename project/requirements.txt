@@ -1,0 +1,11 @@
+Django==1.11.4
+django-crispy-forms==1.6.1
+django-filter==1.0.4
+djangorestframework==3.6.4
+gunicorn==19.7.1
+Markdown==2.6.9
+pytz==2017.2
+## The following requirements were added by pip freeze:
+dj-database-url==0.4.2
+whitenoise==3.3.1
+psycopg2==2.6.2
