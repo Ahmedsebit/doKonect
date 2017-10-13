@@ -1,7 +1,7 @@
-{% extends "base_doctor.html" %}
+{% extends "base_mainclinic.html" %}
 
     {% block script %}
-    {% comment %} <script>
+    <script>
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -19,7 +19,7 @@
 
             function parseRefer(){
                 if (referList == 0){
-                    $("#referal-container").append(
+                    $("#clinic-container").append(
                                 "<tr>" +
                                 "<td>" + "Not Found" + "</td>" +
                                 "<td>" + "Not Found" + "</td>" +
@@ -29,16 +29,22 @@
                         )
                 }else{
                 $.each(referList, function(key,value){
-                        var date = value.date
-                        var patient = value.patient.firstname + ' ' +value.patient.lastname 
-                        var service_requested = value.service_requested.service
-                        var clinic = value.user_id
-                        $("#referal-container").append(
+                        var date = value.clinic_date
+                        var clinic_name = value.clinic_name 
+                        var clinic_accept = value.clinic_accept
+                        var id = value.id
+                        if (!clinic_accept){
+                            clinic_setup = "<a href ='#'>" + 'Accept ' + "</a>" + "|"+ "<a href ='#'>" + ' Reject' + "</a>"
+                        }
+                        else{
+                            clinic_setup = clinic_accept
+                        }
+                        $("#clinic-container").append(
                                 "<tr>" +
                                 "<td>" + date + "</td>" +
-                                "<td>" + patient + "</td>" +
-                                "<td>" + service_requested + "</td>" +
-                                "<td>" + clinic + "</td>" +
+                                "<td>" + clinic_name + "</td>" +
+                                "<td>" + clinic_setup + "</td>" +
+                                "<td>" + "<a href ='scheduledclinic/"+ id+"'" + ">" + 'view' + "</a>" + "</td>" +
                                 "</tr>"   
                         )
                     })
@@ -49,7 +55,7 @@
                 console.log("fetching...")
                 var fetchUrl;
                 if(!url){
-                    fetchUrl = "/api/patients/referral/"
+                    fetchUrl = "/api/clinic/"
                 }else{
                     fetchUrl = url
                 }
@@ -60,7 +66,8 @@
                 },
                 method:"GET",
                 success:function(data){
-                    referList = data.results
+                    referList = data
+                    console.log(data)
                     nextReferralUrl = data.next;
                     parseRefer()
                     
@@ -87,7 +94,7 @@
                 var formData = this_.serializeArray();
 
                 $.ajax({
-                    url:"/api/referral/create/",
+                    url:"/api/clinic/create/",
                     data: formData,
                     method: "POST",
                     success:function(data){
@@ -102,14 +109,15 @@
                     }
                 })
             })
-        });  </script> {% endcomment %}
+        });  </script>
+        
 
   
     {% endblock script %}
 
     {% block title %}{{block.super}} | Home {% endblock title %}
     {% block content %}
-    {% include "doctor_referral/search_form.html" %}</br>
+    {% include "clinic/search_form.html" %}</br>
     <!-- Button trigger modal -->
     <form action="create/">
     <button class="btn" id='load-more' href='create/' >New Clinic Date</button>
@@ -119,28 +127,14 @@
             <table class="table table-striped">
             <thead>
                 <tr>
-                <th>Clinic Name</th>
                 <th>Date</th>
+                <th>Clinic Name</th>
                 <th>Status</th>
                 <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="referal-container">
-                {% for object in object_list %}
-                <tr>
-                    <td>{{object.clinic_name}}</td>
-                    <td>{{object.clinic_date}}</td>
-                    <td>
-                        {% if object.clinic_accept %}
-                        {{ object.clinic_accept }}
-                        {% else %}
-                        <a href="{% url 'clinic:rejected' object.id %}">Accept</a> |
-                        <a href="{% url 'clinic:rejected' object.id %}">Reject</a>
-                        {% endif %}
-                    </td>
-                    <td><a href="{% url 'clinic:cdetail' object.id %}">view</a></td>
-                </tr>
-                {% endfor %}
+            <tbody id="clinic-container">
+               
             </tbody>
             </table>
         </div>

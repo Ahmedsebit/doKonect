@@ -12,6 +12,7 @@ class Clinic_DateDisplaySerializer(serializers.ModelSerializer):
         model = Clinic_Date
         user_id = UserDisplaySerializer(read_only=True)
         fields = [
+            'id',
             'clinic_name',
             'clinic_details',
             'user_id',
