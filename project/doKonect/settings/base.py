@@ -126,13 +126,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-storage')
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'youremail@gmail.com'
-EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_HOST = os.environ.get('smtp.sendgrid.net')
+EMAIL_HOST_USER = os.environ.get('sendgrid_username')
+EMAIL_HOST_PASSWORD = os.environ.get('sendgrid_password')
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True

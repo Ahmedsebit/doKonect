@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from .base import *
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -83,8 +85,12 @@ WSGI_APPLICATION = 'doKonect.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'daaot8hkouql0r',
+        'USER': 'ossenvnflaecij',
+        'PASSWORD': '1262435b848e63075ec18af1091ef9cce80174720c380dfd4c44fb8db3055195',
+        'HOST': 'ec2-54-221-241-23.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -129,8 +135,15 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ahmedamedy@gmail.com'
-EMAIL_HOST_PASSWORD = 'osmantito88'
+EMAIL_HOST = os.environ.get('smtp.sendgrid.net')
+EMAIL_HOST_USER = os.environ.get('sendgrid_username')
+EMAIL_HOST_PASSWORD = os.environ.get('sendgrid_password')
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+ENVIRONMENT = 'production'
+DEBUG = False
+ALLOWED_HOSTS = ['']
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://ossenvnflaecij:1262435b848e63075ec18af1091ef9cce80174720c380dfd4c44fb8db3055195@ec2-54-221-241-23.compute-1.amazonaws.com:5432/daaot8hkouql0r'
+)
