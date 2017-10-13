@@ -1,1 +1,1 @@
-web: gunicorn doKonect.wsgi
+web: gunicorn doKonect.wsgi --log-file -
