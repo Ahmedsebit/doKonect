@@ -61,30 +61,29 @@ class Clinic_Date_DoctorApiCreateView(generics.CreateAPIView):
         return super(Clinic_Date_DoctorApiCreateView, self).form_valid(form)
 
 
-# class Clinic_Date_UpdateView(generics.CreateAPIView):
-#     queryset = Clinic_Date.objects.all()
-#     form_class = Clinic_Date_Form
-#     template_name = 'clinic/clinic_date_update.html'
+class Clinic_Date_ApiUpdateView(generics.ListCreateAPIView):
+    serializer_class = Clinic_DateDisplaySerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-# class Clinic_Date_MainUpdateView(LoginRequiredMixin, UpdateView):
-#     form_class = Clinic_Date_Form
-#     template_name = 'clinic/clinic_date_update.html'
-
-
-# class Clinic_Date_DeleteView(generics.CreateAPIView):
-#     model = Clinic_Date
-#     template_name = 'clini/confirm_delete.html'
-#     success_url = reverse_lazy("clinic:list") 
+class Clinic_Date_MainApiUpdateView(generics.ListCreateAPIView):
+    serializer_class = Clinic_DateDisplaySerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
-# class Clinic_Date_DetailView(generics.CreateAPIView):
-#     queryset = Clinic_Date.objects.all()
-#     def get_object(self):
-#         pk = self.kwargs.get('pk')
-#         return Clinic_Date.objects.get(id=pk)
+class Clinic_Date_ApiDeleteView(generics.RetrieveDestroyAPIView):
+    serializer_class = Clinic_DateDisplaySerializer
+    permission_classes = [permissions.IsAuthenticated] 
 
 
-class Clinic_Date_MainClinicApiDetailView(generics.CreateAPIView):
+class Clinic_Date_ApiDetailView(generics.ListCreateAPIView):
+    serializer_class = Clinic_DateDisplaySerializer
+    permission_classes = [permissions.IsAuthenticated]
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        return Clinic_Date.objects.get(id=pk)
+
+
+class Clinic_Date_MainClinicApiDetailView(generics.ListCreateAPIView):
     serializer_class = Clinic_DateDisplaySerializer
     permission_classes = [permissions.IsAuthenticated]
     def get_object(self):
@@ -105,7 +104,7 @@ class Clinic_Date_MainClinicApiDetailView(generics.CreateAPIView):
 
 
 
-class Clinic_Date_ClinicApiDetailView(generics.CreateAPIView):
+class Clinic_Date_ClinicApiDetailView(generics.ListCreateAPIView):
     serializer_class = Clinic_DateDisplaySerializer
     permission_classes = [permissions.IsAuthenticated]
     def get_object(self):
@@ -123,7 +122,8 @@ class Clinic_Date_ClinicApiDetailView(generics.CreateAPIView):
             clinic_object = {'clinic':clinic, 'clinic_patients':None, 'patients':patients}
             return clinic_object
 
-class Clinic_Date_DoctorApiDetailView(generics.CreateAPIView):
+
+class Clinic_Date_DoctorApiDetailView(generics.ListCreateAPIView):
     serializer_class = Clinic_DateDisplaySerializer
     permission_classes = [permissions.IsAuthenticated]
     def get_object(self):
