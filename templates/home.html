@@ -1,0 +1,135 @@
+{% extends "home_base.html" %}
+{% load static %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" id='home'>
+        <div class="carousel-item active" style="background-color:#3A503F;">
+          <img class="first-slide" src="#" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption d-none d-md-block text-left">
+              <h1>Welcome to doKonect</h1>
+              <p>You can make referrals automatically and securely online using our fast, efficient and simple web platform.</p>
+              <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" style="background-color:#56785F;">
+          <img class="second-slide" src="#" alt="Second slide">
+          <div class="container" id='about'>
+            <div class="carousel-caption d-none d-md-block">
+              <h1>Our Objective.</h1>
+              <p>The objective of the system is to provide a platform for that will enable access to specialist medical care, in a timely manner.</p>
+              <p><a class="btn btn-lg btn-success" href="#" role="button">Learn more</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" style="background-color:#9DDBAD;">
+          <img class="third-slide" src="#" alt="Third slide">
+          <div class="container">
+            <div class="carousel-caption d-none d-md-block text-right">
+              <h1>Our Approach.</h1>
+              <p>We aim to expand access to quality healthcare through technology by provide a referral system which will enable patient secure urgent and specialized medical care.</p>
+              <p><a class="btn btn-lg btn-success" href="#" role="button">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+        <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <h1 style="text-align: center;">Benefits</h1>
+      <div class="row">
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+          <h2 style="color:#3A503F;">Reduce Referral Time</h2>
+          <p style="padding-top:5px; color:#56785F;">We have introduced a new health systems to the growing medical environment which has streamlined and reduced the referral process, from days to minutes. It's fast, efficient, accurate and simple to use.</p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+          <h2 style="color:#3A503F;">Access Specialised Care</h2>
+          <p style="padding-top:5px; color:#56785F;">We seek to close the gap in information and assist patients find the right specialists. Assist them in securing appointment within a week and avoid have relatively long waiting times.</p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+          <h2 style="color:#3A503F; ">Tracking and Monitoring</h2>
+          <p style="padding-top:5px; color:#56785F;">Communication and coordination with specialists is vital to the patients treatment and well-being therefore, our platform assists in obtaining timely data from specialists on the patients’s progress</p>
+
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+
+
+      <!-- START THE FEATURETTES -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading" style="color:#3A503F;">For Patients. <span class="text-muted" style="color:#9DDBAD;">Get Cared For.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" src="{% static 'img/patient.jpg' %}" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+          <h2 class="featurette-heading" style="color:#3A503F;">For Clinics. <span class="text-muted">Get to Connect.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+          <img class="featurette-image img-fluid mx-auto" src="{% static 'img/clinic.jpg' %}" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading" style="color:#3A503F;">For Specialists. <span class="text-muted">Get to Collaborate.</span></h2>
+          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-fluid mx-auto" src="{% static 'img/doctor.jpg' %}" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="float-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2017 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+
+    {% endblock content %}

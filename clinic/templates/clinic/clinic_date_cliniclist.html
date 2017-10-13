@@ -1,0 +1,137 @@
+{% extends "base_clinic.html" %}
+
+    {% block script %}
+    <script>
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+    
+            $(document).ready(function(){
+                var query = getParameterByName('q')
+                var referList = [];
+                var nextReferralUrl;
+    
+                function parseRefer(){
+                    if (referList == 0){
+                        $("#clinic-container").append(
+                                    "<tr>" +
+                                    "<td>" + "Not Found" + "</td>" +
+                                    "<td>" + "Not Found" + "</td>" +
+                                    "<td>" + "</td>" +
+                                    "</tr>"   
+                            )
+                    }else{
+                    $.each(referList, function(key,value){
+                            var date = value.clinic_date
+                            var clinic_name = value.clinic_name 
+                            var id = value.id
+                            
+                            $("#clinic-container").append(
+                                    "<tr>" +
+                                    "<td>" + date + "</td>" +
+                                    "<td>" + clinic_name + "</td>" +
+                                    "<td>" + "<a href ='viewclinic/"+ id+"'" + ">" + 'view' + "</a>" + "</td>" +
+                                    "</tr>"   
+                            )
+                        })
+                    }
+                }
+    
+                function fetchReferals(url){
+                    console.log("fetching...")
+                    var fetchUrl;
+                    if(!url){
+                        fetchUrl = "/api/clinic/clinics/"
+                    }else{
+                        fetchUrl = url
+                    }
+                    $.ajax({
+                    url:fetchUrl,
+                    data:{
+                        'q':query
+                    },
+                    method:"GET",
+                    success:function(data){
+                        referList = data
+                        console.log(data)
+                        nextReferralUrl = data.next;
+                        parseRefer()
+                        
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                    })
+                }
+    
+                fetchReferals()
+    
+                $('#load-more').click("click", function(event){
+                    event.preventDefault()
+                    if (nextReferralUrl){
+                        fetchReferals(nextReferralUrl)
+                    }          
+                })
+    
+                $("#refer-form").submit(function(event){
+                    event.preventDefault()
+                    var this_ = $(this)
+                    var formData = this_.serializeArray();
+    
+                    $.ajax({
+                        url:"/api/clinic/create/",
+                        data: formData,
+                        method: "POST",
+                        success:function(data){
+                            console.log(data)
+                            fetchReferals()
+                            
+                        },
+                        error: function(data){
+                            console.log("error");
+                            console.log(formData);
+                            console.log(data.statusText);
+                        }
+                    })
+                })
+            });  </script>
+
+  
+    {% endblock script %}
+
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    {% include "doctor_referral/search_form.html" %}</br>
+    <!-- Button trigger modal -->
+    <form action="create/">
+    </form>
+    <h2>My Clinics</h2>
+    <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Clinic Name</th>
+                <th>Date</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="referal-container">
+                {% for object in object_list %}
+                <tr>
+                    <td>{{object.clinic_name}}</td>
+                    <td>{{object.clinic_date}}</td>
+                    <td><a href="{% url 'clinic:clinicdetail' object.id %}">view</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+    {% endblock content %}

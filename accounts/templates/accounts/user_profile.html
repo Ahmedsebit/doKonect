@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    {% if object is None %}
+    <p>Profile is empty</p> <a class="btn btn-dark" href="{% url 'profiles:create' %}">Create Profile</a>
+    {% else %}
+    <h1>{{object.name}} </span></h1>
+
+    <div class="referral">
+        <dt>Location: </dt> 
+        {{object.location}}
+    </div>
+
+    <div class="referral">
+        <dt>Phone Number: </dt> 
+        {{object.phonenumber}}
+    </div>
+
+    <div class="referral">
+        <dt>Email: </dt> 
+        {{object.user.email}}
+    </div>
+
+    <div class="referral">
+        <dt>Username: </dt> 
+        {{object.user.username}}
+    </div>
+    
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+        {{object}}</br>
+        {{object.patient_id}}</br>
+        {{object.doctor_id}}</br>
+        {{object.user_id}}</br>
+        {{object.booking_date}}</br>
+        {{object.booked_date}}</br>
+        {{object.group}}</br>
+        {{object.comments}}</br>
+{% endblock content %}
