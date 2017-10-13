@@ -84,22 +84,22 @@ class Clinic_Date_ApiDetailView(generics.ListCreateAPIView):
 
 
 class Clinic_Date_MainClinicApiDetailView(generics.ListCreateAPIView):
-    serializer_class = Clinic_DateDisplaySerializer
+    serializer_class = Clinic_Date_PatientDisplaySerializer
     permission_classes = [permissions.IsAuthenticated]
-    def get_object(self):
+    def get_queryset(self, *args, **kwargs):
         pk = self.kwargs.get('pk')
         clinic = Clinic_Date.objects.get(id=pk)
         try:
             clinic_patients = Clinic_Date_Patients.objects.filter(
                                                             Q(clinic__id__iexact=clinic.id)
                                                             )
-            context = {'clinic':clinic, 'clinic_patients':clinic_patients}
+            context = clinic_patients
             return context
         except:
             clinic_patients = Clinic_Date_Patients.objects.filter(
                                                             Q(clinic__id__iexact=clinic.id)
                                                             )
-            context = {'clinic':clinic, 'clinic_patients':None}
+            context = clinic_patients
             return context
 
 

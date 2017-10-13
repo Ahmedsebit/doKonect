@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^patients/', include('patients.urls', namespace='patients')),
     url(r'^api/referral/', include('doctor_referral.api.urls', namespace='referral-api')),
     url(r'^api/patients/', include('patients.api.urls', namespace='patients-api')),
+    url(r'^api/clinic/', include('clinic.api.urls', namespace='clinic-api')),
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^register/', UserRegistrationView.as_view(), name='register'),
     url(r'^profiles/', include('accounts.urls', namespace='profiles')),
