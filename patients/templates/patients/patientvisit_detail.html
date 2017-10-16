@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    
+    <div class="col-sm-11 col-md-11 d-none d-sm-block">   
+        <h2>{{object.patient.firstname}} {{object.patient.lastname}}</h2>
+        <table class="table table-bordered">
+            <tbody>
+                <th scope="row">Date Of Birth</th>
+                <td>{{object.patient.dob}}</td>
+                </tr>
+                <tr>
+                <th scope="row">SEX</th>
+                <td colspan="2">{{object.patient.gender}}</td>
+                </tr>
+                <tr>
+                <th scope="row">Phone Number</th>
+                <td colspan="2">{{object.patient.phonenumber}}</td>
+                </tr>
+                <tr>
+                <th scope="row">Address</th>
+                <td colspan="2">{{object.patient.address}}</td>
+                </tr>
+            </tbody>
+        </table>
+    <div class="referral">
+        <dt>Date: </dt> 
+        {{object.date}}
+    </div>
+    <div class="referral">
+        <dt>Diagnosis</dt>
+        {{object.diagnosis}}
+    </div>
+    <div class="referral">
+        <dt>Service Requested</dt>
+        {{object.diagnosis}}
+    </div>
+    <div class="referral">
+        <dt>Service Requested</dt>
+        {{object.diagnosis}}
+    </div>
+
+    <div class="referral">
+        <dt>Service type requested</dt>
+        {{object.service_type_requested}}
+    </div>
+
+    <div>
+        <dt>Referral reason</dt>
+        {{object.referral_reason}}
+    </div>
+    </div>
+
+{% endblock content %}

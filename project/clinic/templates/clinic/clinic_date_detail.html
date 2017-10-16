@@ -1,0 +1,24 @@
+{% extends "base_doctor.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <div class="referral">
+        <dt>Clinic</dt>
+        {{object.clinic_name}}
+    </div>
+    <div class="referral">
+        <dt>Details</dt>
+        {{object.clinic_details}}
+    </div>
+    <div class="referral">
+        <dt>Date</dt>
+        {{object.clinic_date}}
+    </div>
+    <div class="referral">
+        <dt>Doctor</dt>
+        {{object.user_id.username}}
+    </div>
+    <div class="referral">
+        <dt>Speciality</dt>
+        {{object.user_id.speciality}}
+    </div>
+{% endblock content %}

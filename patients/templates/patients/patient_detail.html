@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    <table class="table table-bordered">
+    <tbody>
+        <tr>
+        <th scope="row">First Name</th>
+        <td>{{object.firstname}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Last Name</th>
+        <td>{{object.lastname}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Date Of Birth</th>
+        <td>{{object.dob}}</td>
+        </tr>
+        <tr>
+        <th scope="row">SEX</th>
+        <td colspan="2">{{object.gender}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Phone Number</th>
+        <td colspan="2">{{object.phonenumber}}</td>
+        </tr>
+        <tr>
+        <th scope="row">Address</th>
+        <td colspan="2">{{object.address}}</td>
+        </tr>
+    </tbody>
+    </table>
+        
+        
+{% endblock content %}

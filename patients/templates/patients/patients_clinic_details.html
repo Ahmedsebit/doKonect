@@ -1,0 +1,36 @@
+{% extends "base_clinic.html" %}
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+
+    <div>
+        <dt>Name: {{object.patient.firstname}} {{object.patient.lastname}}</dt>
+        <dt>Date of Birth: {{object.patient.dob}}</dt>
+        <dt>Sex: {{object.patient.gender}}</dt>
+        <dt>Phonenumber: {{object.patient.phonenumber}}</dt>
+        <dt>Address: {{object.patient.address}}</dt>
+    </div>
+    <br>
+    <a class="btn btn-success" href="add/">Click to add visist</a> 
+    <br>
+    <br>
+    {% if object.visits %}
+    <table class="table table-bordered">
+            <th>Date</th>
+            <th>Service Requested</th>
+            <th>Action</th>
+        <tbody>
+            {% for obj in object.visits %}
+        <tr>
+            <td>{{ obj.date }}</td>
+            <td>{{ obj.service_requested }}</td>
+            <td><a href="{% url 'patients:detailclinicreferral' obj.patient.id obj.id %}"> View </a></td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+    {% else %}  
+    <span  style="color:crimson;">This patient has no recorded visit </span> <br>
+    <a class="btn btn-success" href="add/">Click to add visist</a> 
+    {% endif %}
+        
+{% endblock content %}

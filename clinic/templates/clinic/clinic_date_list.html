@@ -1,0 +1,142 @@
+{% extends "base_mainclinic.html" %}
+
+    {% block script %}
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        $(document).ready(function(){
+            var query = getParameterByName('q')
+            var referList = [];
+            var nextReferralUrl;
+
+            function parseRefer(){
+                if (referList == 0){
+                    $("#clinic-container").append(
+                                "<tr>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "Not Found" + "</td>" +
+                                "<td>" + "</td>" +
+                                "<td>" + "</td>" +
+                                "</tr>"   
+                        )
+                }else{
+                $.each(referList, function(key,value){
+                        var date = value.clinic_date
+                        var clinic_name = value.clinic_name 
+                        var clinic_accept = value.clinic_accept
+                        var id = value.id
+                        if (!clinic_accept){
+                            clinic_setup = "<a href ='#'>" + 'Accept ' + "</a>" + "|"+ "<a href ='#'>" + ' Reject' + "</a>"
+                        }
+                        else{
+                            clinic_setup = clinic_accept
+                        }
+                        $("#clinic-container").append(
+                                "<tr>" +
+                                "<td>" + date + "</td>" +
+                                "<td>" + clinic_name + "</td>" +
+                                "<td>" + clinic_setup + "</td>" +
+                                "<td>" + "<a href ='scheduledclinic/"+ id+"'" + ">" + 'view' + "</a>" + "</td>" +
+                                "</tr>"   
+                        )
+                    })
+                }
+            }
+
+            function fetchReferals(url){
+                console.log("fetching...")
+                var fetchUrl;
+                if(!url){
+                    fetchUrl = "/api/clinic/"
+                }else{
+                    fetchUrl = url
+                }
+                $.ajax({
+                url:fetchUrl,
+                data:{
+                    'q':query
+                },
+                method:"GET",
+                success:function(data){
+                    referList = data
+                    console.log(data)
+                    nextReferralUrl = data.next;
+                    parseRefer()
+                    
+                },
+                error: function(data){
+                    console.log("error");
+                    console.log(data);
+                }
+                })
+            }
+
+            fetchReferals()
+
+            $('#load-more').click("click", function(event){
+                event.preventDefault()
+                if (nextReferralUrl){
+                    fetchReferals(nextReferralUrl)
+                }          
+            })
+
+            $("#refer-form").submit(function(event){
+                event.preventDefault()
+                var this_ = $(this)
+                var formData = this_.serializeArray();
+
+                $.ajax({
+                    url:"/api/clinic/create/",
+                    data: formData,
+                    method: "POST",
+                    success:function(data){
+                        console.log(data)
+                        fetchReferals()
+                        
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(formData);
+                        console.log(data.statusText);
+                    }
+                })
+            })
+        });  </script>
+        
+
+  
+    {% endblock script %}
+
+    {% block title %}{{block.super}} | Home {% endblock title %}
+    {% block content %}
+    {% include "clinic/search_form.html" %}</br>
+    <!-- Button trigger modal -->
+    <form action="create/">
+    <button class="btn" id='load-more' href='create/' >New Clinic Date</button>
+    </form>
+    <h2>My Clinics</h2>
+    <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Date</th>
+                <th>Clinic Name</th>
+                <th>Status</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="clinic-container">
+               
+            </tbody>
+            </table>
+        </div>
+
+    {% endblock content %}

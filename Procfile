@@ -1,0 +1,1 @@
+web: gunicorn doKonect.wsgi --log-file -
