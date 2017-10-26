@@ -25,7 +25,7 @@ SECRET_KEY = 'rhui!c2c&w9dn7sgz&^v!ia-$g&+_q@=3=%kpe40vgq^!1_d^t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://dokonect.herokuapp.com/', 'localhost', '127.0.0.1']
 
 
 # Application definition
