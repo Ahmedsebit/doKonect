@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -58,13 +58,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'doKonect.urls'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'login_success'
-
 LOGOUT_REDIRECT_URL = '/login/'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +125,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static-some/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static-storage")
+]
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static-serve")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
